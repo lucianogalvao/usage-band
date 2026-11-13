@@ -1,0 +1,11 @@
+{
+  "name": "usage-band",
+  "version": "1.0.0",
+  "description": "Session usage at a glance: a colored band above the prompt or a compact line below it. Plan limits, context and cost. English or Portuguese.",
+  "author": { "name": "lucianogalvao", "url": "https://github.com/lucianogalvao" },
+  "homepage": "https://github.com/lucianogalvao/usage-band",
+  "repository": "https://github.com/lucianogalvao/usage-band",
+  "license": "MIT",
+  "keywords": ["status", "usage", "rate-limit", "context", "cost"],
+  "types": "./types/index.d.ts"
+}

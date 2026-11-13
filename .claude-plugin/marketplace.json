@@ -1,0 +1,14 @@
+{
+  "name": "usage-band",
+  "owner": { "name": "lucianogalvao", "url": "https://github.com/lucianogalvao" },
+  "metadata": { "description": "usage-band: session usage at a glance for Claude Code" },
+  "plugins": [
+    {
+      "name": "usage-band",
+      "source": "./",
+      "description": "Session usage at a glance: a colored band above the prompt or a compact line below it. Plan limits, context and cost. English or Portuguese.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}
