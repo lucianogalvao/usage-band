@@ -65,10 +65,6 @@ Everything is read from Claude Code's own session figures. The plugin makes no n
 
 Uso da sessão sem sair do prompt: limites do plano (5h e semanal), contexto e custo. `/usage-band pt` troca os textos para português (Sessão 5h, Semanal, Contexto); `/usage-band top`, `bottom` ou `off` escolhe onde mostrar (`cima` e `baixo` também funcionam).
 
-## Credits
-
-Inspired by and partly adapted from [Rishit30G/usage-band](https://github.com/Rishit30G/usage-band) (MIT). This version drops the prompt-cache segment and the Handoff button, and adds the compact bottom line, the mode command and Portuguese labels.
-
 ## License
 
 MIT

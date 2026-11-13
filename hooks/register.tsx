@@ -31,25 +31,30 @@ const TEXT = {
 
 const C = {
   claude: '#D97757',
-  green: '#7ee787',
-  amber: '#ffb454',
-  red: '#ff6b6b',
-  gold: '#f6d365',
-  muted: '#8b93a7',
+  green: '#56d364',
+  amber: '#e3b341',
+  red: '#f85149',
+  gold: '#f2cc60',
+  muted: '#7d8590',
 }
 
-// claude-opus-5-5 -> Opus 5.5; unknown ids pass through
+// "claude-opus-5-5" becomes "Opus 5.5"; anything else is shown as it came
 const modelName = (id: string) => {
-  const m = id.match(/^claude-(opus|sonnet|haiku|fable)-(\d+)(?:-(\d{1,2}))?(?:-\d{8})?(\[.*\])?$/)
-  if (!m) return id
-  const [, fam = '', major, minor, suffix] = m
-  return `${fam.charAt(0).toUpperCase()}${fam.slice(1)} ${major}${minor ? `.${minor}` : ''}${suffix ?? ''}`
+  if (!id.startsWith('claude-')) return id
+  const tail = id.slice('claude-'.length).match(/^([^[]*)(\[.*\])?$/)
+  const words = (tail?.[1] ?? '').split('-').filter(w => !/^\d{8}$/.test(w))
+  const family = words.shift() ?? ''
+  if (!family || !words.length || !words.every(w => /^\d+$/.test(w))) return id
+  return `${family[0]!.toUpperCase()}${family.slice(1)} ${words.join('.')}${tail?.[2] ?? ''}`
 }
 
 const level = (pct: number, warn: number, crit: number) => (pct >= crit ? C.red : pct >= warn ? C.amber : C.green)
 
-const tok = (n: number) =>
-  n >= 1e6 ? `${+(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}k` : `${Math.round(n)}`
+const tok = (n: number) => {
+  if (n < 1000) return String(Math.round(n))
+  if (n < 1_000_000) return `${Math.round(n / 1000)}k`
+  return `${Number((n / 1_000_000).toFixed(1))}M`
+}
 
 const dur = (sec: number) => {
   const s = Math.max(0, Math.floor(sec))
@@ -57,10 +62,9 @@ const dur = (sec: number) => {
   return d ? `${d}d ${h}h` : h ? `${h}h ${m}m` : `${m}m`
 }
 
-const bar = (pct: number, width = 10) => {
-  const n = Math.round((Math.min(100, Math.max(0, pct)) / 100) * width)
-  return '█'.repeat(n) + '░'.repeat(width - n)
-}
+// ten cells, each one 10% of the window
+const bar = (pct: number) =>
+  Array.from({ length: 10 }, (_, i) => (pct >= i * 10 + 5 ? '█' : '░')).join('')
 
 // The compact line: "Opus 5.5 · 5h 20% · 7d 17% · ctx 18%"
 export const compactLine = (s: Snap, l: Lang) => {

@@ -24,3 +24,11 @@ test('compact line leaves out what the engine has no figure for', async () => {
   expect(compactLine({ ...SNAP, model: null, limits: [], ctxPct: null }, 'en')).toBe(undefined)
   expect(compactLine({ ...SNAP, limits: [] }, 'en')).toBe('Opus 5.5 · ctx 18%')
 })
+
+test('model names', async () => {
+  const s = (model: string) => compactLine({ ...SNAP, model, limits: [], ctxPct: null }, 'en')
+  expect(s('claude-opus-5-5')).toBe('Opus 5.5')
+  expect(s('claude-haiku-4-5-20251001')).toBe('Haiku 4.5')
+  expect(s('claude-sonnet-5-5[1m]')).toBe('Sonnet 5.5[1m]')
+  expect(s('gpt-x')).toBe('gpt-x')
+})
