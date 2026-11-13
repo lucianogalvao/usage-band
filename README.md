@@ -2,6 +2,8 @@
 
 Session usage at a glance for Claude Code: how close you are to your plan limits, how full the context is and what the session costs, without running `/cost` or `/context`.
 
+![usage-band: the band above the prompt and the compact line below it](assets/band.png)
+
 Two looks, switched with one command:
 
 **Top**: a colored band above the prompt.
